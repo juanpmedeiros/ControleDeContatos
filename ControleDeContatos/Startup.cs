@@ -1,4 +1,5 @@
 ﻿using ControleDeContatos.Data;
+using ControleDeContatos.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -17,10 +18,10 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<BancoContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
         services.AddControllersWithViews();
+        services.AddEntityFrameworkSqlServer().AddDbContext<BancoContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        services.AddScoped<IContatoRepository, ContatoRepository>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
